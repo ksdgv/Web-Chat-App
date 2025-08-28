@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+  <link rel="stylesheet" href="/static/auth.css">
+</head>
+<body>
+<div class="auth-container">
+  <div class="auth-card">
+    {% with messages = get_flashed_messages() %}
+    {% if messages %}
+      <div class="alert-messages">
+        {% for message in messages %}
+        <div class="alert alert-{{ message.category }}">{{ message }}</div>
+        {% endfor %}
+      </div>
+    {% endif %}
+    {% endwith %}
+    
+    <div class="auth-tabs">
+        <nav>
+            <div class="tab login-tab active">Login</div>
+            <div class="tab signup-tab">Sign up</div>
+            <div class="glider"></div>
+          </nav>
+      
+      <div class="auth-forms">
+        <!-- Login Form -->
+        <form method="POST" class="auth-form login-form active">
+          <div class="form-group">
+            <i class="fas fa-envelope"></i>
+            <input type="email" name="email" placeholder="Email address" required>
+          </div>
+          <div class="form-group">
+            <i class="fas fa-lock"></i>
+            <input type="password" name="password" placeholder="Password" required>
+          </div>
+          <div class="form-options">
+            <label class="checkbox">
+              <input type="checkbox" checked>
+              Remember me
+            </label>
+            <!-- <a href="#" class="forgot-password">Forgot password?</a> -->
+          </div>
+          <button type="submit" class="auth-btn">Log in <i class="fas fa-arrow-right"></i></button>
+        </form>
+
+        <!-- Register Form -->
+        <form method="POST" action="{{ url_for('views.register') }}" class="auth-form register-form">
+          <div class="form-group">
+            <i class="fas fa-user"></i>
+            <input type="text" name="username" placeholder="Username" required>
+          </div>
+          <div class="form-group">
+            <i class="fas fa-envelope"></i>
+            <input type="email" name="email" placeholder="Email address" required>
+          </div>
+          <div class="form-group">
+            <i class="fas fa-lock"></i>
+            <input type="password" name="password" placeholder="Create password" required>
+          </div>
+          <button type="submit" class="auth-btn">Create Account <i class="fas fa-user-plus"></i></button>
+        </form>
+      </div>
+    </div>
+
+    <!-- <div class="auth-footer">
+      <span>Or continue with</span>
+      <div class="social-auth">
+        <a href="#" class="social-btn google"><i class="fab fa-google"></i></a>
+        <a href="#" class="social-btn github"><i class="fab fa-github"></i></a>
+        <a href="#" class="social-btn facebook"><i class="fab fa-facebook"></i></a>
+      </div>
+    </div> -->
+  </div>
+</div>
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+      const tabs = document.querySelectorAll('.tab');
+      const forms = document.querySelectorAll('.auth-form');
+      const nav = document.querySelector('.auth-tabs nav');
+      
+      tabs.forEach(tab => {
+        tab.addEventListener('click', function() {
+          // Update active tab
+          tabs.forEach(t => t.classList.remove('active'));
+          this.classList.add('active');
+          
+          // Update nav state
+          if (this.classList.contains('signup-tab')) {
+            nav.classList.add('signup-active');
+          } else {
+            nav.classList.remove('signup-active');
+          }
+          
+          // Update active form
+          forms.forEach(form => form.classList.remove('active'));
+          const formClass = this.classList.contains('signup-tab') 
+            ? 'register-form' 
+            : 'login-form';
+          document.querySelector(`.${formClass}`).classList.add('active');
+        });
+      });
+    });
+  </script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+<script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
+
+</body>
+</html>
